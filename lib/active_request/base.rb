@@ -2,20 +2,20 @@ module ActiveRequest
   class Base
     include HTTParty
     include HasMany
-
-    base_uri 'localhost:4001'
+    include Attributes
 
     def initialize(options)
       options = options.symbolize_keys
       attributes.each do |att|
         send("#{att}=", options[att]) if options[att].present?
       end
+      self.class.base_uri(ActiveRequest.configuration.uri)
     end
 
     def self.headers
       {
-        "uid" => "rddev",
-        "customer-token" => "4dba1e34-3241-4c6a-b940-aa3edd7285c6"
+        "uid" => ActiveRequest.configuration.uid,
+        "customer-token" => ActiveRequest.configuration.customer_token
       }
     end
 
@@ -39,20 +39,6 @@ module ActiveRequest
 
     def self.model_name
       raise 'Activerequest::Base#model_name must be implemented by a subclass'
-    end
-
-    def self.attr_accessor(*vars)
-      @attributes ||= []
-      @attributes.concat vars
-      super(*vars)
-    end
-
-    def self.attributes
-      @attributes
-    end
-
-    def attributes
-      self.class.attributes
     end
 
     private
