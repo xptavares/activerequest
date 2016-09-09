@@ -58,7 +58,13 @@ module ActiveRequest
     private
 
     def query
-      { self.class.model_name => attributes.map { |att| { att => send(att) } }.reduce(:merge) }
+      many_atts = query_for_manys.reduce(:merge)
+      local_atts = attributes.map { |att| { att => send(att) } }.reduce(:merge)
+      { self.class.model_name => local_atts.merge(many_atts) }
+    end
+
+    def query_for_manys
+      has_manys.map { |many| { "#{many[:association]}_attributes" => send(many[:association]).map { |item| item.attributes.map { |att| { att => item.send(att) } }.reduce(:merge) } } }
     end
   end
 end
