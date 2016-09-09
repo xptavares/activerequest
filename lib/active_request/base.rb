@@ -9,7 +9,7 @@ module ActiveRequest
       attributes.each do |att|
         send("#{att}=", options[att]) if options[att].present?
       end
-      self.class.base_uri(ActiveRequest.configuration.uri)
+      self.class.base_uri("#{ActiveRequest.configuration.uri}/#{ActiveRequest.configuration.api_version}/")
     end
 
     def self.headers
@@ -20,21 +20,31 @@ module ActiveRequest
     end
 
     def self.all
-      response = get("/v1/#{model_name.pluralize}.json", headers: headers)
+      base_uri("#{ActiveRequest.configuration.uri}/#{ActiveRequest.configuration.api_version}/")
+      response = get("/#{model_name.pluralize}.json", headers: headers)
       return [] unless 200 == response.code
       body = JSON.parse(response.body)
       body[model_name.pluralize].map { |params| new(params) }
     end
 
     def self.where(query)
-      response = get("/v1/#{model_name.pluralize}.json", query: query, headers: headers)
+      base_uri("#{ActiveRequest.configuration.uri}/#{ActiveRequest.configuration.api_version}/")
+      response = get("/#{model_name.pluralize}.json", query: query, headers: headers)
       return [] unless 200 == response.code
       body = JSON.parse(response.body)
       body[model_name.pluralize].map { |params| new(params) }
     end
 
+    def self.find(id)
+      base_uri("#{ActiveRequest.configuration.uri}/#{ActiveRequest.configuration.api_version}/")
+      response = get("/#{model_name.pluralize}/#{id}.json", headers: headers)
+      return [] unless 200 == response.code
+      body = JSON.parse(response.body)
+      new(body[model_name])
+    end
+
     def save
-      self.class.post("/v1/#{self.class.model_name.pluralize}.json", query: query, headers: self.class.headers)
+      self.class.post("/#{self.class.model_name.pluralize}.json", query: query, headers: self.class.headers)
     end
 
     def self.model_name
