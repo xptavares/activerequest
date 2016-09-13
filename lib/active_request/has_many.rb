@@ -17,19 +17,29 @@ module ActiveRequest
         @has_manys
       end
 
-      def new( *args, &blk )
-         o = allocate
-         o.instance_eval{initialize( *args, &blk )}
-         o.has_manys.each do |many|
-           o.instance_variable_set("@#{many[:association]}", [])
-           define_method(many[:association]) do
-             o.instance_variable_get("@#{many[:association]}")
-           end
-           define_method("#{many[:association]}=") do |many_setter|
-             o.instance_variable_set("@#{many[:association]}", many_setter)
-           end
-         end if o.has_manys
-         o
+      def build_has_manys(alloc)
+        alloc.has_manys.each do |many|
+          alloc.instance_variable_set("@#{many[:association]}", [])
+          define_method(many[:association]) do
+            variable = alloc.instance_variable_get("@#{many[:association]}")
+            if id && variable.blank?
+              father_ojb = Object.const_get(many[:class_name])
+              father_model_name = father_ojb.model_name.pluralize
+              self.class.base_uri("#{ActiveRequest.configuration.uri}/#{ActiveRequest.configuration.api_version}/")
+              response = self.class.get("/#{self.class.model_name.pluralize}/#{id}/#{father_model_name}.json", headers: self.class.headers)
+              return [] unless 200 == response.code
+              body = JSON.parse(response.body)
+              # TODO era para ser assim mesmo?
+              children = body["#{self.class.model_name}/#{father_model_name}"].map { |params| father_ojb.new(params) }
+              send("#{many[:association]}=", children)
+              variable = children
+            end
+            variable
+          end
+          define_method("#{many[:association]}=") do |many_setter|
+            alloc.instance_variable_set("@#{many[:association]}", many_setter)
+          end
+        end if alloc.has_manys
       end
     end
 
