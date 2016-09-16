@@ -26,4 +26,22 @@ class QueriestTest < Minitest::Test
       assert_equal blog.title, string_to_udpate_title
     end
   end
+
+  def test_should_find_by_model_pk
+    VCR.use_cassette('test_should_find_by_model_pk') do
+      blog = Blog.new title: "Test"
+      assert_equal blog.save, true
+      refute_nil blog.id
+      blog_findd = Blog.find blog.id
+      assert_equal blog.id, blog_findd.id
+    end
+  end
+
+  def test_create_class_method
+    VCR.use_cassette('test_create_class_method') do
+      blog = Blog.create title: "Test"
+      refute_nil blog.id
+      assert_equal blog.title, "Test"
+    end
+  end
 end

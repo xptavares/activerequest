@@ -41,6 +41,12 @@ module ActiveRequest
         body = JSON.parse(response.body)
         new(body[model_name])
       end
+
+      def create(query)
+        new_obj = new(query)
+        new_obj.save
+        new_obj
+      end
     end
 
     module InstanceMethods
