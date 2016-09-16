@@ -5,9 +5,10 @@ module ActiveRequest
       base.send(:include, InstanceMethods)
     end
     module ClassMethods
-      def belongs_to(association, options)
+      def belongs_to(association, options = nil)
         @belongs_tos ||= []
-        @belongs_tos << { association: association, class_name: options[:class_name] }
+        class_name = !options.nil? && !options[:class_name].nil? ? options[:class_name] : (association.to_s.split.map(&:capitalize)*' ')
+        @belongs_tos << { association: association, class_name: class_name }
         # define_method("#{association}=") do |association|
         #   set(association)
         # end

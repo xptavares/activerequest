@@ -1,3 +1,7 @@
+require 'active_support/inflector'
+require 'active_support/core_ext/hash'
+require 'httparty'
+
 require "active_request/configuration"
 require "active_request/version"
 require "active_request/errors"

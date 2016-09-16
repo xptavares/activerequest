@@ -4,14 +4,14 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'active_request/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "activerequest"
+  spec.name          = "active_request"
   spec.version       = ActiveRequest::VERSION
   spec.authors       = ["Alexandre Tavares"]
   spec.email         = ["xptavares@gmail.com"]
 
   spec.summary       = %q{Like ActiveRecord but from request}
   spec.description   = %q{Like ActiveRecord but from request}
-  spec.homepage      = "https://github.com/xptavares/activerequest"
+  spec.homepage      = "https://github.com/xptavares/active_request"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "httparty"
+  spec.add_dependency "activesupport", '>= 4.2.7'
 
   spec.add_development_dependency "bundler", "~> 1.11"
   spec.add_development_dependency "rake", "~> 10.0"

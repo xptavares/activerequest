@@ -8,10 +8,12 @@ module ActiveRequest
 
     attr_reader :errors
 
-    def initialize(options)
-      options = options.symbolize_keys
-      attributes.each do |att|
-        send("#{att}=", options[att]) if options[att].present?
+    def initialize(options = nil)
+      if options.present?
+        options.symbolize_keys!
+        attributes.each do |att|
+          send("#{att}=", options[att]) if options[att].present?
+        end
       end
       self.class.base_uri("#{ActiveRequest.configuration.uri}/#{ActiveRequest.configuration.api_version}/")
     end

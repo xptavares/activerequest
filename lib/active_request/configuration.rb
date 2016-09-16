@@ -1,11 +1,10 @@
 module ActiveRequest
   class Configuration
-    attr_accessor :uri, :uid, :customer_token, :api_version
+    attr_accessor :uri, :headers, :api_version
 
     def initialize
       @uri = nil
-      @uid = nil
-      @customer_token = nil
+      @headers = nil
       @api_version = nil
     end
   end

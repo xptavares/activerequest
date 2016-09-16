@@ -6,10 +6,16 @@ module ActiveRequest
     end
     module ClassMethods
       def headers
-        {
-          "uid" => ActiveRequest.configuration.uid,
-          "customer-token" => ActiveRequest.configuration.customer_token
-        }
+        return {} unless ActiveRequest.configuration.headers
+        ActiveRequest.configuration.headers
+      end
+
+      def last
+        all.last
+      end
+
+      def first
+        all.first
       end
 
       def all
@@ -40,17 +46,32 @@ module ActiveRequest
     module InstanceMethods
       def save
         instance_variable_set("@errors", [])
-        response = self.class.post("/#{self.class.model_name.pluralize}.json", query: query, headers: self.class.headers)
-        unless 201 == response.code
-          instance_variable_set("@errors", response["errors"])
-          return false
-        end
+        response = id.present? ? do_put : do_post
+        return false unless response
         body = JSON.parse(response.body)
         instance_variable_set("@id", body[self.class.model_name]["id"])
         true
       end
 
       private
+
+      def do_post
+        response = self.class.post("/#{self.class.model_name.pluralize}.json", query: query, headers: self.class.headers)
+        unless 201 == response.code
+          instance_variable_set("@errors", response["errors"])
+          return false
+        end
+        response
+      end
+
+      def do_put
+        response = self.class.put("/#{self.class.model_name.pluralize}/#{id}.json", query: query, headers: self.class.headers)
+        unless 200 == response.code
+          instance_variable_set("@errors", response["errors"])
+          return false
+        end
+        response
+      end
 
       def query
         many_atts = query_for_manys.reduce(:merge)

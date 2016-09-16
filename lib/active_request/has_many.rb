@@ -5,12 +5,10 @@ module ActiveRequest
       base.send(:include, InstanceMethods)
     end
     module ClassMethods
-      def has_many(association, options)
+      def has_many(association, options = nil)
         @has_manys ||= []
-        @has_manys << { association: association, class_name: options[:class_name] }
-        # define_method("#{association}=") do |association|
-        #   set(association)
-        # end
+        class_name = !options.nil? && !options[:class_name].nil? ? options[:class_name] : (association.to_s.split.map(&:capitalize)*' ').singularize
+        @has_manys << { association: association, class_name: class_name }
       end
 
       def has_manys
