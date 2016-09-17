@@ -31,6 +31,11 @@ put '/v1/blogs/:id.json' do
   json blog: { id: id.to_i }
 end
 
+delete '/v1/blogs/:id.json' do
+  id = params[:id]
+  json blog: { id: id.to_i }
+end
+
 get '/v1/posts.json' do
   t1 = { id: 1, title: 'title 1', body: 'body 1', blog_id: 1 }
   t2 = { id: 2, title: 'title 2', body: 'body 2', blog_id: 1 }

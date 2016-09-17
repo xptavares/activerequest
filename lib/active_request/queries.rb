@@ -50,6 +50,18 @@ module ActiveRequest
     end
 
     module InstanceMethods
+
+      def delete
+        instance_variable_set("@errors", [])
+        response = self.class.delete("/#{self.class.model_name.pluralize}/#{id}.json", headers: self.class.headers)
+        unless 200 == response.code
+          instance_variable_set("@errors", response["errors"])
+          return false
+        end
+        body = JSON.parse(response.body)
+        true
+      end
+
       def save
         instance_variable_set("@errors", [])
         response = id.present? ? do_put : do_post
@@ -81,8 +93,7 @@ module ActiveRequest
 
       def query
         many_atts = query_for_manys.reduce(:merge)
-        attributes.each { |att| puts send(att) if att == :id }
-        local_atts = attributes.map { |att|  add_key_value(att, send(att)) }.reject(&:blank?).reduce(:merge)
+        local_atts = attributes.map { |att| add_key_value(att, send(att)) }.reject(&:blank?).reduce(:merge)
         { self.class.model_name => local_atts.merge(many_atts) }
       end
 

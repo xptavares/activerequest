@@ -20,9 +20,18 @@ Or install it yourself as:
 
     $ gem install active_request
 
+## Installation
+
+```ruby
+ActiveRequest.configure do |config|
+  config.uri = 'localhost:4567'
+  config.api_version = 'v1'
+end
+```
 ## Usage
 
-TODO: Write usage instructions here
+[Examples](https://github.com/xptavares/active_request/blob/master/examples/README.md)
+
 
 ## Development
 
