@@ -1,5 +1,13 @@
 # Examples
 
+## Create Class
+
+```ruby
+class Blog < ActiveRequest::Base
+  attr_accessor :id, :title
+end
+```
+
 #### Find All
 
 ```ruby

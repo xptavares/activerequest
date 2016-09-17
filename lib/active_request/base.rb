@@ -19,7 +19,7 @@ module ActiveRequest
     end
 
     def self.model_name
-      raise 'Activerequest::Base#model_name must be implemented by a subclass'
+      name.underscore.pluralize
     end
 
     def self.new( *args, &blk )
