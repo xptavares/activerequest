@@ -28,6 +28,15 @@ ActiveRequest.configure do |config|
   config.api_version = 'v1'
 end
 ```
+
+You can use headers for token.
+```ruby
+ActiveRequest.configure do |config|
+  config.uri = 'localhost:4567'
+  config.api_version = 'v1'
+  config.headers = { "token" => "*" }
+end
+```
 ## Usage
 
 [Examples](https://github.com/xptavares/activerequest/blob/master/examples/README.md)
