@@ -4,14 +4,14 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'active_request/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "active_request"
+  spec.name          = "activerequest"
   spec.version       = ActiveRequest::VERSION
   spec.authors       = ["Alexandre Tavares"]
   spec.email         = ["xptavares@gmail.com"]
 
   spec.summary       = %q{Like ActiveRecord but from request}
   spec.description   = %q{Like ActiveRecord but from request}
-  spec.homepage      = "https://github.com/xptavares/active_request"
+  spec.homepage      = "http://rubygems.org/gems/active_request"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
