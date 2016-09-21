@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Alexandre Tavares"]
   spec.email         = ["xptavares@gmail.com"]
 
-  spec.summary       = %q{Like ActiveRecord but from request}
-  spec.description   = %q{Like ActiveRecord but from request}
+  spec.summary       = "ActiveRequest is a gem to help monolithic projects turn into micro services."
+  spec.description   = "ActiveRequest is a gem to help monolithic projects turn into micro services."
   spec.homepage      = "http://rubygems.org/gems/activerequest"
   spec.license       = "MIT"
 

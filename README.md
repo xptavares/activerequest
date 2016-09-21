@@ -1,9 +1,10 @@
-### Status
-[![Build Status](https://travis-ci.org/xptavares/activerequest.png)](https://travis-ci.org/xptavares/activerequest)
-
 # Activerequest
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/active_request`. To experiment with that code, run `bin/console` for an interactive prompt.
+Active Request is a gem to help monolithic projects turn into micro services.
+
+[![Gem Version](https://badge.fury.io/rb/activerequest.svg)](https://badge.fury.io/rb/activerequest)
+[![Build Status](https://travis-ci.org/xptavares/activerequest.png)](https://travis-ci.org/xptavares/activerequest)
+[![codecov](https://codecov.io/gh/xptavares/activerequest/branch/master/graph/badge.svg)](https://codecov.io/gh/xptavares/activerequest)
 
 ## Installation
 
