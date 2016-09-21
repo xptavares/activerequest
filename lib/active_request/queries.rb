@@ -94,7 +94,7 @@ module ActiveRequest
       def query
         many_atts = query_for_manys.reduce(:merge)
         local_atts = attributes.map { |att| add_key_value(att, send(att)) }.reject(&:blank?).reduce(:merge)
-        { self.class.model_name => local_atts.merge(many_atts) }
+        { self.class.model_name => local_atts ? local_atts.merge(many_atts) : many_atts }
       end
 
       def query_for_manys

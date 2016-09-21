@@ -29,6 +29,10 @@ VCR.configure do |c|
   c.allow_http_connections_when_no_cassette = false
   c.ignore_localhost = false
   c.ignore_hosts 'codeclimate.com'
+  c.preserve_exact_body_bytes do |http_message|
+    http_message.body.encoding.name == 'ASCII-8BIT' ||
+    !http_message.body.valid_encoding?
+  end
 end
 
 MinitestVcr::Spec.configure!

@@ -7,11 +7,44 @@ class QueriestTest < Minitest::Test
     end
   end
 
+  def test_should_get_first
+    VCR.use_cassette('all_blogs') do
+      blog = Blog.first
+      refute_nil blog.id
+    end
+  end
+
+  def test_should_get_last
+    VCR.use_cassette('all_blogs') do
+      blog = Blog.last
+      refute_nil blog.id
+    end
+  end
+
   def test_should_fill_id_after_create
     VCR.use_cassette('post_to_blogs') do
       blog = Blog.new title: "Test"
       assert_equal blog.save, true
       refute_nil blog.id
+    end
+  end
+
+  def test_erro_on_create_blog
+    VCR.use_cassette('test_erro_on_create_blog') do
+      blog = Blog.new
+      assert_equal blog.save, false
+      assert_equal blog.id, nil
+      assert_equal blog.errors, "title" => ["obrigatório"]
+    end
+  end
+
+  def test_erro_on_update_blog
+    VCR.use_cassette('test_erro_on_update_blog') do
+      blog = Blog.find 1
+      blog.title = nil
+      assert_equal blog.save, false
+      assert_equal blog.id, 1
+      assert_equal blog.errors, "title" => ["obrigatório"]
     end
   end
 
@@ -42,6 +75,21 @@ class QueriestTest < Minitest::Test
       blog = Blog.create title: "Test"
       refute_nil blog.id
       assert_equal blog.title, "Test"
+    end
+  end
+
+  def test_find_and_delete_blog
+    VCR.use_cassette('test_find_and_delete_blog') do
+      blog = Blog.find 1
+      refute_nil blog.id
+      assert_equal blog.delete, true
+    end
+  end
+
+  def test_get_blogs_by_title
+    VCR.use_cassette('test_get_blogs_by_title') do
+      blogs = Blog.where(title: 'title 1')
+      assert_equal blogs.count, 1
     end
   end
 end

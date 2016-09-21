@@ -28,12 +28,15 @@ end
 
 post '/v1/blogs.json' do
   status 201
-  json blog: { id: rand(1..9999) }
+  return json(blog: { id: rand(1..9999) }) if params["blog"]["title"]
+  status 422
+  json(errors: { title: ["obrigatório"] }, full_error_messages: "Title obrigatório")
 end
 
 put '/v1/blogs/:id.json' do
-  id = params[:id]
-  json blog: { id: id.to_i }
+  return json(blog: { id: params[:id].to_i }) if params["blog"]["title"]
+  status 422
+  json(errors: { title: ["obrigatório"] }, full_error_messages: "Title obrigatório")
 end
 
 delete '/v1/blogs/:id.json' do
