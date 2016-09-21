@@ -5,6 +5,8 @@ Active Request is a gem to help monolithic projects turn into micro services.
 [![Gem Version](https://badge.fury.io/rb/activerequest.svg)](https://badge.fury.io/rb/activerequest)
 [![Build Status](https://travis-ci.org/xptavares/activerequest.png)](https://travis-ci.org/xptavares/activerequest)
 [![codecov](https://codecov.io/gh/xptavares/activerequest/branch/master/graph/badge.svg)](https://codecov.io/gh/xptavares/activerequest)
+[![Code Climate](https://codeclimate.com/github/xptavares/activerequest/badges/gpa.svg)](https://codeclimate.com/github/xptavares/activerequest)
+[![Issue Count](https://codeclimate.com/github/xptavares/activerequest/badges/issue_count.svg)](https://codeclimate.com/github/xptavares/activerequest)
 
 ## Installation
 
