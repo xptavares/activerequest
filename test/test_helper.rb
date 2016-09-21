@@ -1,4 +1,13 @@
 require 'rubygems'
+
+if ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.start
+
+  require 'codecov'
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
+end
+
 require 'active_request'
 
 require './examples/blog.rb'
@@ -12,12 +21,6 @@ require "minitest-vcr"
 require "webmock"
 require "mocha/setup"
 require "multi_json"
-
-require 'simplecov'
-SimpleCov.start
-
-require 'codecov'
-SimpleCov.formatter = SimpleCov::Formatter::Codecov
 
 VCR.configure do |c|
   c.cassette_library_dir = 'test/cassettes'
