@@ -50,3 +50,38 @@ blog.save # "PUT /v1/blogs/1.json?blog[id]=1&blog[title]=new%20title&blog[posts_
 blog = Blog.find(1)
 blog.delete # "DELETE /v1/blogs/1.json HTTP/1.1" 200
 ```
+
+## Association
+
+#### classes
+```ruby
+class Blog < ActiveRequest::Base
+  attr_accessor :id, :title
+  has_many :posts
+end
+
+class Post < ActiveRequest::Base
+  attr_accessor :id, :title, :body
+  belongs_to :blog
+end
+```
+
+#### has many
+
+```ruby
+blog = Blog.first
+=> #<Blog:0x0056334e564ed8 @id=1, @title="title 1", @posts=[]>
+blog.posts # "GET /v1/blogs/1/posts.json HTTP/1.1" 200
+=> [#<Post:0x0056334e554240 @id=1, @title="title 1", @body="body 1", @blog=nil>, #<Post:0x0056334e5537a0 @id=2, @title="title 2", @body="body 2", @blog=nil>]
+```
+
+#### belongs to
+
+```ruby
+post = Post.find 1
+=> #<Post:0x007fb2c4112578 @blog_id=1, @blog=nil, @id=1, @title="title 1", @body="body 1">
+post.blog # "GET /v1/blogs/1.json HTTP/1.1" 200
+=> #<Blog:0x007fb2c40862d0 @posts=[], @id=1, @title="title 1">
+post
+=> #<Post:0x007fb2c4112578 @blog_id=1, @blog=#<Blog:0x007fb2c40862d0 @posts=[], @id=1, @title="title 1">, @id=1, @title="title 1", @body="body 1">
+```

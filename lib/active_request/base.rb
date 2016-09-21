@@ -14,6 +14,10 @@ module ActiveRequest
         attributes.each do |att|
           send("#{att}=", options[att]) if options[att].present?
         end
+        belongs_tos.each do |att|
+          simble = att[:foreign_key].to_sym
+          send("#{att[:foreign_key]}=", options[simble]) if options[simble].present?
+        end if belongs_tos
       end
       self.class.base_uri("#{ActiveRequest.configuration.uri}/#{ActiveRequest.configuration.api_version}/")
     end
@@ -22,11 +26,11 @@ module ActiveRequest
       name.underscore.pluralize
     end
 
-    def self.new( *args, &blk )
+    def self.new(*args, &blk)
       alloc = allocate
-      alloc.instance_eval { initialize(*args, &blk) }
       build_has_manys(alloc)
       build_belongs_tos(alloc)
+      alloc.instance_eval { initialize(*args, &blk) }
       alloc
     end
   end
