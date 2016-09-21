@@ -12,6 +12,7 @@ require 'active_request'
 
 require './examples/blog.rb'
 require './examples/post.rb'
+require './examples/user.rb'
 require './examples/config.rb'
 
 require 'minitest/autorun'

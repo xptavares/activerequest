@@ -23,7 +23,7 @@ module ActiveRequest
     end
 
     def self.model_name
-      name.underscore.pluralize
+      name.underscore
     end
 
     def self.new(*args, &blk)
