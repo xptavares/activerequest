@@ -8,7 +8,7 @@ module ActiveRequest
       def belongs_to(association, options = nil)
         @belongs_tos ||= []
         class_name = !options.nil? && !options[:class_name].nil? ? options[:class_name] : (association.to_s.split.map(&:capitalize)*' ')
-        foreign_key = !options.nil? && !options[:foreign_key].nil? ? options[:foreign_key] : "#{association}"
+        foreign_key = !options.nil? && !options[:foreign_key].nil? ? options[:foreign_key] : "#{association}_id"
         @belongs_tos << { association: association, class_name: class_name, foreign_key: foreign_key }
       end
 
@@ -20,15 +20,12 @@ module ActiveRequest
         alloc.belongs_tos.each do |many|
           alloc.instance_variable_set("@#{many[:foreign_key]}", nil)
           alloc.instance_variable_set("@#{many[:association]}", nil)
-          puts "*" * 100
-          puts many[:foreign_key]
-          puts self
-          puts "*" * 100
           define_method(many[:association]) do
             variable = alloc.instance_variable_get("@#{many[:association]}")
             if id && variable.blank?
               father_ojb = Object.const_get(many[:class_name])
               variable = father_ojb.find send(many[:foreign_key])
+              send("#{many[:association]}=", variable) if variable
             end
             variable
           end

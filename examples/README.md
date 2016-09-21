@@ -51,7 +51,7 @@ blog = Blog.find(1)
 blog.delete # "DELETE /v1/blogs/1.json HTTP/1.1" 200
 ```
 
-## Relations
+## Association
 
 #### classes
 ```ruby
@@ -78,6 +78,10 @@ blog.posts # "GET /v1/blogs/1/posts.json HTTP/1.1" 200
 #### belongs to
 
 ```ruby
-post = Post.first
-post.blog
+post = Post.find 1
+=> #<Post:0x007fb2c4112578 @blog_id=1, @blog=nil, @id=1, @title="title 1", @body="body 1">
+post.blog # "GET /v1/blogs/1.json HTTP/1.1" 200
+=> #<Blog:0x007fb2c40862d0 @posts=[], @id=1, @title="title 1">
+post
+=> #<Post:0x007fb2c4112578 @blog_id=1, @blog=#<Blog:0x007fb2c40862d0 @posts=[], @id=1, @title="title 1">, @id=1, @title="title 1", @body="body 1">
 ```
