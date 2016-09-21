@@ -1,5 +1,4 @@
-lib = File.expand_path('../../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'rubygems'
 require 'active_request'
 
 require './examples/blog.rb'
@@ -12,12 +11,15 @@ require "vcr"
 require "minitest-vcr"
 require "webmock"
 require "mocha/setup"
-require "faraday"
+require "multi_json"
 
 VCR.configure do |c|
   c.cassette_library_dir = 'test/cassettes'
   c.hook_into :webmock
-  c.default_cassette_options = { serialize_with: :json }
+  c.default_cassette_options = { serialize_with: :json, record: :once }
+  c.allow_http_connections_when_no_cassette = false
+  c.ignore_localhost = false
+  c.ignore_hosts 'codeclimate.com'
 end
 
 MinitestVcr::Spec.configure!
