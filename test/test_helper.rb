@@ -13,6 +13,12 @@ require "webmock"
 require "mocha/setup"
 require "multi_json"
 
+require 'simplecov'
+SimpleCov.start
+
+require 'codecov'
+SimpleCov.formatter = SimpleCov::Formatter::Codecov
+
 VCR.configure do |c|
   c.cassette_library_dir = 'test/cassettes'
   c.hook_into :webmock
