@@ -69,7 +69,7 @@ end
 #### has many
 
 ```ruby
-blog = Blog.first
+blog = Blog.find 1
 => #<Blog:0x0056334e564ed8 @id=1, @title="title 1", @posts=[]>
 blog.posts # "GET /v1/blogs/1/posts.json HTTP/1.1" 200
 => [#<Post:0x0056334e554240 @id=1, @title="title 1", @body="body 1", @blog=nil>, #<Post:0x0056334e5537a0 @id=2, @title="title 2", @body="body 2", @blog=nil>]

@@ -23,14 +23,19 @@ module ActiveRequest
             if id && variable.blank?
               father_ojb = Object.const_get(many[:class_name])
               father_model_name = father_ojb.model_name.pluralize
+              self_model_name = self.class.model_name
               self.class.base_uri("#{ActiveRequest.configuration.uri}/#{ActiveRequest.configuration.api_version}/")
-              response = self.class.get("/#{self.class.model_name.pluralize}/#{id}/#{father_model_name}.json", headers: self.class.headers)
+              response = self.class.get("/#{self_model_name.pluralize}/#{id}/#{father_model_name}.json", headers: self.class.headers)
               return [] unless 200 == response.code
               body = JSON.parse(response.body)
               # TODO era para ser assim mesmo?
-              children = body["#{self.class.model_name}/#{father_model_name}"].map { |params| father_ojb.new(params) }
-              send("#{many[:association]}=", children)
-              variable = children
+              childrens = body["#{self_model_name}/#{father_model_name}"].map { |params| father_ojb.new(params) }
+              childrens.each do |ch|
+                ch.instance_variable_set("@#{self_model_name}", self)
+                ch.instance_variable_set("@#{self_model_name}_id", self.id)
+              end
+              send("#{many[:association]}=", childrens)
+              variable = childrens
             end
             variable
           end
