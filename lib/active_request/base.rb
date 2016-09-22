@@ -3,6 +3,7 @@ module ActiveRequest
     include HTTParty
     include Errors
     include HasMany
+    include FindBy
     include Attributes
     include Queries
 

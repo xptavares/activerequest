@@ -8,6 +8,7 @@ require "active_request/errors"
 require "active_request/queries"
 require "active_request/belongs_to"
 require "active_request/has_many"
+require "active_request/find_by"
 require "active_request/attributes"
 require "active_request/base"
 
